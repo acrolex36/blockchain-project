@@ -373,19 +373,3 @@ salt  : 0x1a2b...  (your salt from Step 8)
 | ethers.js | 6.x |
 
 ---
-
-## Sample Inputs for Testing
-
-### Player 1
-```
-Bombs      : 0, 4, 8   (A1, B2, C3 — diagonal)
-Salt       : 0x8f3a6d9c41e7b2f05c8d13a964be27f1d5c7048a9e6b32f0c147da85b39e62ac
-Commitment : call buildCommitment(0, 4, 8, <salt>) in Remix
-```
-
-### Player 2
-```
-Bombs      : 2, 3, 7   (A3, B1, C2)
-Salt       : 0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b
-Commitment : call buildCommitment(2, 3, 7, <salt>) in Remix
-```

@@ -72,7 +72,9 @@ from being reused on a different deployed contract.
 ## Phases
 
 The Game has 5 Phases
+
 | Phase | Description |
+|---|---|
 | WaitingForPlayers | Waiting for players to join the game |
 | Commit | Deciding their bombs in their grids |
 | Play | Guessing opponent's guess and responding to their answer |

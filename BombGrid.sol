@@ -58,6 +58,7 @@ contract BombGrid {
     event BoardVerified(address player, bool honest);
     event CheaterDetected(address cheater);
     event Payout(address winner, uint256 amount);
+    event GameReset();
 
     constructor(address deployerAddress) {
         deployer = deployerAddress;
@@ -238,13 +239,57 @@ contract BombGrid {
             emit Payout(honest, address(this).balance);
             return;
         } else {
-            // both honest → game winner gets everything
+            // both honest -> game winner gets everything
             address winner = getOpponent(loser);
             (bool ok, ) = payable(winner).call{value: prize}("");
             require(ok, "Transfer failed");
             emit Payout(winner, prize);
         }
     }
+
+    function resetGame() external onlyPlayer {
+    require(phase == Phase.Done, "Game is not finished yet");
+
+    // save addresses before clearing them
+    address p1 = player1;
+    address p2 = player2;
+
+    // reset players
+    player1      = address(0);
+    player2      = address(0);
+    currentTurn  = address(0);
+    loser        = address(0);
+    cheater      = address(0);
+
+    // reset mappings using saved addresses
+    commitment[p1]   = bytes32(0);
+    commitment[p2]   = bytes32(0);
+    hasCommitted[p1] = false;
+    hasCommitted[p2] = false;
+    bombsFound[p1]   = 0;
+    bombsFound[p2]   = 0;
+    hasRevealed[p1]  = false;
+    hasRevealed[p2]  = false;
+
+    // reset turn state
+    pendingCell    = 0;
+    guessPending   = false;
+    roundNumber    = 0;
+
+    // reset response log
+    delete responses;
+
+    // reset cell guesses
+    for (uint8 i = 0; i < GRID_SIZE; i++) {
+        cellGuessed[p1][i] = false;
+        cellGuessed[p2][i] = false;
+    }
+
+    // back to start
+    phase = Phase.WaitingForPlayers;
+
+    emit GameReset();
+}
 
     function getOpponent(address player) public view returns (address) {
         if (player == player1) return player2;

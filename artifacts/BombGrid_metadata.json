@@ -122,6 +122,12 @@
 			},
 			{
 				"anonymous": false,
+				"inputs": [],
+				"name": "GameReset",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
 				"inputs": [
 					{
 						"indexed": false,
@@ -601,6 +607,13 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "resetGame",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint8",
@@ -803,11 +816,11 @@
 			]
 		},
 		"BombGrid.sol": {
-			"keccak256": "0xfacefd3f515a9642a1fc97e92824e837156c6806e9660e30d734e1b483dc9a69",
+			"keccak256": "0xf9e55cab340cb704548c223bbc1107ab407f33a2d8301184caeab123e5113125",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8cc554d45a0cdc6b9e079620844c2e6efb27dc687ab6855c2cec5156ec114d6d",
-				"dweb:/ipfs/Qmf4DYDK2fCUSAUMKZTJ6yHbBFqdTafufc4t1WCgipDUYc"
+				"bzz-raw://6f87167260f25ca2fcb2da781968026c4d7820b60869f865b750793d14d833b6",
+				"dweb:/ipfs/QmTjADPrZGN53zdj9XAp7zM5YXadh7igXLqRSmEdBSZFDp"
 			]
 		}
 	},

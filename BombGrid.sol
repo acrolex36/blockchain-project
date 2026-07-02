@@ -46,7 +46,9 @@ contract BombGrid {
 
     uint8 public pendingCell;
     bool public guessPending;
-    address public cheater;
+
+    address public cheater1;
+    address public cheater2;
 
     event PlayerJoined(address player);
     event BoardCommitted(address player);
@@ -209,7 +211,11 @@ contract BombGrid {
                 bool actualIsBomb = (grid[r.cell] == 1);
                 if (r.isBomb != actualIsBomb) {
                     honest = false;
-                    cheater = msg.sender;
+                    if (cheater1 == address(0)) {
+                        cheater1 = msg.sender;
+                    } else {
+                        cheater2 = msg.sender;
+                    }
                     emit CheaterDetected(msg.sender);
                     break;
                 }
@@ -229,67 +235,72 @@ contract BombGrid {
     function _settlePayout() internal {
         uint256 prize = address(this).balance;
 
-        // Case 1: someone cheated -> honest player gets everything
-        if (cheater != address(0)) {
-            address honest = getOpponent(cheater);
-            (bool ok, ) = payable(honest).call{value: address(this).balance}(
-                ""
-            );
+        // both cheated -> deployer gets everything
+        if (cheater1 != address(0) && cheater2 != address(0)) {
+            (bool ok, ) = payable(deployer).call{value: prize}("");
             require(ok, "Transfer failed");
-            emit Payout(honest, address(this).balance);
-            return;
+            emit Payout(deployer, prize);
+
+        // one cheated -> honest player gets everything
+        } else if (cheater1 != address(0)) {
+            address honest = getOpponent(cheater1);
+            (bool ok, )    = payable(honest).call{value: prize}("");
+            require(ok, "Transfer failed");
+            emit Payout(honest, prize);
+
+        // nobody cheated -> winner gets everything
         } else {
-            // both honest -> game winner gets everything
             address winner = getOpponent(loser);
-            (bool ok, ) = payable(winner).call{value: prize}("");
+            (bool ok, )    = payable(winner).call{value: prize}("");
             require(ok, "Transfer failed");
             emit Payout(winner, prize);
         }
     }
 
     function resetGame() external onlyPlayer {
-    require(phase == Phase.Done, "Game is not finished yet");
+        require(phase == Phase.Done, "Game is not finished yet");
 
-    // save addresses before clearing them
-    address p1 = player1;
-    address p2 = player2;
+        // save addresses before clearing them
+        address p1 = player1;
+        address p2 = player2;
 
-    // reset players
-    player1      = address(0);
-    player2      = address(0);
-    currentTurn  = address(0);
-    loser        = address(0);
-    cheater      = address(0);
+        // reset players
+        player1      = address(0);
+        player2      = address(0);
+        currentTurn  = address(0);
+        loser        = address(0);
+        cheater1 = address(0);
+        cheater2 = address(0);
 
-    // reset mappings using saved addresses
-    commitment[p1]   = bytes32(0);
-    commitment[p2]   = bytes32(0);
-    hasCommitted[p1] = false;
-    hasCommitted[p2] = false;
-    bombsFound[p1]   = 0;
-    bombsFound[p2]   = 0;
-    hasRevealed[p1]  = false;
-    hasRevealed[p2]  = false;
+        // reset mappings using both saved addresses
+        commitment[p1]   = bytes32(0);
+        commitment[p2]   = bytes32(0);
+        hasCommitted[p1] = false;
+        hasCommitted[p2] = false;
+        bombsFound[p1]   = 0;
+        bombsFound[p2]   = 0;
+        hasRevealed[p1]  = false;
+        hasRevealed[p2]  = false;
 
-    // reset turn state
-    pendingCell    = 0;
-    guessPending   = false;
-    roundNumber    = 0;
+        // reset turn state
+        pendingCell    = 0;
+        guessPending   = false;
+        roundNumber    = 0;
 
-    // reset response log
-    delete responses;
+        // reset response log
+        delete responses;
 
-    // reset cell guesses
-    for (uint8 i = 0; i < GRID_SIZE; i++) {
-        cellGuessed[p1][i] = false;
-        cellGuessed[p2][i] = false;
+        // reset cell guesses
+        for (uint8 i = 0; i < GRID_SIZE; i++) {
+            cellGuessed[p1][i] = false;
+            cellGuessed[p2][i] = false;
+        }
+
+        // back to start
+        phase = Phase.WaitingForPlayers;
+
+        emit GameReset();
     }
-
-    // back to start
-    phase = Phase.WaitingForPlayers;
-
-    emit GameReset();
-}
 
     function getOpponent(address player) public view returns (address) {
         if (player == player1) return player2;

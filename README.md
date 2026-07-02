@@ -177,6 +177,7 @@ Output:
 ```
 signature : 0xabc123...
 ```
+> Note: Sample input can be found in `sample_input.txt`
 
 Save this signature - give it to Player 1.
 
@@ -199,6 +200,8 @@ Run:
 ```bash
 node GenerateSignature.js [CONTRACT_ADDRESS] [PLAYER_ADDRESS] [DEPLOYER_PRIVATE_KEY]
 ```
+
+> Note: Sample input can be found in `sample_input.txt`
 
 Save the new signature - give it to Player 2.
 
@@ -238,6 +241,17 @@ P1_SALT       = 0x8f3a6d9c41e7b2f05c8d13a964be27f1d5c7048a9e6b32f0c147da85b39e62
 P1_COMMITMENT = 0x...  (output from buildCommitment)
 ```
 
+OR Alternatively
+
+Run:
+
+```bash
+node GenerateCommitment.js [BOMBS] [SALT]
+```
+
+> Note: Example see [Scripts](##Scripts)
+> Sample input can be found in `sample_input.txt`
+
 In Remix:
 - Account -> **Player 1**
 - Find `commitBoard()` function
@@ -264,6 +278,16 @@ P2_BOMBS      = [2, 3, 7]
 P2_SALT       = 0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b
 P2_COMMITMENT = 0x...
 ```
+
+OR Alternatively
+
+Run:
+
+```bash
+node GenerateCommitment.js [BOMBS] [SALT]
+```
+> Note: Example see [Scripts](##Scripts)
+> Sample input can be found in `sample_input.txt`
 
 In Remix:
 - Account -> **Player 2**
@@ -342,7 +366,7 @@ salt  : 0x1a2b...  (your salt from Step 8)
 |---|---|
 | Both honest, game played fairly | Winner gets 2 ETH |
 | Player lied during respond() | Cheater detected in reveal, honest player gets 2 ETH |
-| Commitment does not match revealed bombs | Caught as cheater, repeat the process with the honest answer |
+| Both players lied during respond() | The 2 ETH stake goes to the developer's address |
 
 ---
 

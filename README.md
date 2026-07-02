@@ -177,6 +177,7 @@ Output:
 ```
 signature : 0xabc123...
 ```
+> Note: Sample input can be found in `sample_input.txt`
 
 Save this signature - give it to Player 1.
 
@@ -199,6 +200,8 @@ Run:
 ```bash
 node GenerateSignature.js [CONTRACT_ADDRESS] [PLAYER_ADDRESS] [DEPLOYER_PRIVATE_KEY]
 ```
+
+> Note: Sample input can be found in `sample_input.txt`
 
 Save the new signature - give it to Player 2.
 
@@ -247,6 +250,7 @@ node GenerateCommitment.js [BOMBS] [SALT]
 ```
 
 > Note: Example see [Scripts](##Scripts)
+> Sample input can be found in `sample_input.txt`
 
 In Remix:
 - Account -> **Player 1**
@@ -282,6 +286,8 @@ Run:
 ```bash
 node GenerateCommitment.js [BOMBS] [SALT]
 ```
+> Note: Example see [Scripts](##Scripts)
+> Sample input can be found in `sample_input.txt`
 
 In Remix:
 - Account -> **Player 2**

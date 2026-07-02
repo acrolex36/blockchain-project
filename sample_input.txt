@@ -1,0 +1,18 @@
+Deployer Address: 0xef530cdfc13c0517b3ccf0720fe5bb3d87ff4ccb
+Private key: 0x2a1d98f783a082882f1c637e989252438d8ad5c91c1c70614293d633941fce64
+
+Contract Address: 0xf8C196cf5d624a8b65CE4839689B2439fa796e7A
+
+//----------------------PLAYER 1 ---------------------------------//
+Player1 Address:  0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
+Player1 Signature:  0x74770253f6a103b80ed5eeee506bbaded30051cb59a6c2fbcfeb1ac9050b68fc466aaeb96cece40f795f66f28ddb4490a43c05eb30eb375b145a15f4e39fc4071c
+Player1 Salt: 0x8f3d72c1a9e4b6f0582d7e91c4ab63de8f3d72c1a9e4b6f0582d7e91c4ab63de
+
+Player1 Commitment: 0xd08eba5af5d3569d53d42a53d3637d48d49af9e63925535d44c6ba90ec085278 (for BOMBS = [0,1,2])
+
+//---------------------PLAYER 2 --------------------------------//
+Player2 Address:  0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
+Player2 Signature:  0x1986611310effdab3d53cf8790af4a6ed64aa02b16e7713813fe0ebbc9ce916e4f13467e2116238b2be46f658ef9d3984241b947a8116c19dff339bcce9f13331b
+Player2 Salt: 0xc27ae519d84f6b03e1a97d5c28fb641ac27ae519d84f6b03e1a97d5c28fb641a
+
+Player2 Commitment: 0xe370efdd4370e4c0bdbfa4c66bc7c6fc0493f1036731d3b537a4fe59b5f16192 (for BOMBS = [0,1,2])

@@ -2,12 +2,6 @@ const { ethers } = require("ethers");
 
 const args = process.argv.slice(2);
 
-const CONTRACT_ADDRESS = args[0];
-
-const PLAYER_ADDRESS = args[1];
-
-const DEPLOYER_PRIVATE_KEY = args[2];
-
 async function authorizePlayer(playerAddress, contractAddress, deployerKey) {
   const wallet = new ethers.Wallet(deployerKey);
 
@@ -30,6 +24,12 @@ async function main() {
         "needs EXACTLY 3 arguments - [CONTRACT_ADDRESS], [PLAYER_ADDRESS], [DEPLOYER_PRIVATE_KEY]",
       );
     }
+
+    const CONTRACT_ADDRESS = args[0];
+
+    const PLAYER_ADDRESS = args[1];
+
+    const DEPLOYER_PRIVATE_KEY = args[2];
 
     if (!ethers.isAddress(PLAYER_ADDRESS)) {
       throw Error("Invalid player address.");

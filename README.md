@@ -7,6 +7,8 @@ Each player hides 3 bombs on a 3x3 grid and takes turns guessing
 the opponent's coordinates. The first player to find 
 their opponent's 3 bombs **loses**. Each player stakes 1 ETH - the winner takes both.
 
+> Note: Inspiration from https://youtube.com/shorts/ldN-5lwHDi4?is=670kv4KRJcD7449r
+
 ---
 
 ## Files

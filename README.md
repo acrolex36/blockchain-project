@@ -7,14 +7,16 @@ Each player hides 3 bombs on a 3x3 grid and takes turns guessing
 the opponent's coordinates. The first player to find 
 their opponent's 3 bombs **loses**. Each player stakes 1 ETH - the winner takes both.
 
+> Note: Inspiration from https://youtube.com/shorts/ldN-5lwHDi4?is=670kv4KRJcD7449r
+
 ---
 
 ## Files
 
 | File | Purpose |
 |---|---|
-| `BombGrid.sol` | Solidity smart contract — deploy this in Remix |
-| `helper.js` | Off-chain JS — generates deployer signatures for player authorization |
+| `BombGrid.sol` | Solidity smart contract - deploy this in Remix |
+| `helper.js` | Off-chain JS - generates deployer signatures for player authorization |
 
 ---
 
@@ -130,19 +132,19 @@ node GenerateSignature.js '0x...' '0x...' '0x...'
 
 ---
 
-## Step by Step — How to Run
+## Step by Step - How to Run
 
 ---
 
-### STEP 1 — Deploy the Contract
+### STEP 1 - Deploy the Contract
 
 1. Open Remix IDE
-2. Create new file → paste contents of `BombGrid.sol`
+2. Create new file -> paste contents of `BombGrid.sol`
 3. Go to **Solidity Compiler** tab
 4. Select compiler version `0.8.20`
 5. Click **Compile BombGrid.sol**
 6. Go to **Deploy & Run Transactions** tab
-7. Environment → **Remix VM (Cancun)**
+7. Environment -> **Remix VM (Cancun)**
 8. Click **Deploy**
 9. Copy the contract address from **Deployed Contracts** section
 
@@ -163,10 +165,7 @@ DEPLOYER_ADDRESS     = 0x...  (account selected when you deployed)
 DEPLOYER_PRIVATE_KEY = 0x...  (from Generate new key)
 ```
 
-> Important: deploy the contract FROM the generated account.
-> Switch Account dropdown to your generated account first, then Deploy.
-
-### STEP 2 — Authorize Player 1 (Deployer runs this)
+### STEP 2 - Authorize Player 1 (Deployer runs this)
 
 Run:
 ```bash
@@ -183,10 +182,10 @@ Save this signature - give it to Player 1.
 
 ---
 
-### STEP 3 — Player 1 Joins
+### STEP 3 - Player 1 Joins
 
 In Remix:
-- Account dropdown → select **Player 1's address**
+- Account dropdown -> select **Player 1's address**
 - Set **VALUE = 1 ETH**
 - Find `joinGame()` function
 - Paste Player 1's signature into the field
@@ -194,7 +193,7 @@ In Remix:
 
 ---
 
-### STEP 4 — Authorize Player 2 (Deployer runs this)
+### STEP 4 - Authorize Player 2 (Deployer runs this)
 
 Run:
 ```bash
@@ -205,20 +204,20 @@ Save the new signature - give it to Player 2.
 
 ---
 
-### STEP 5 — Player 2 Joins
+### STEP 5 - Player 2 Joins
 
 In Remix:
-- Account dropdown → select **Player 2's address**
+- Account dropdown -> select **Player 2's address**
 - Set **VALUE = 1 ETH**
 - Find `joinGame()` function
 - Paste Player 2's signature
 - Click **transact**
-- Phase is now **Commit (1)** ✅
+- Phase is now **Commit (1)**
 - Contract now holds **2 ETH**
 
 ---
 
-### STEP 6 — Player 1 Commits Their Board
+### STEP 6 - Player 1 Commits Their Board
 
 Player 1 picks 3 bomb positions and computes their commitment.
 
@@ -240,14 +239,14 @@ P1_COMMITMENT = 0x...  (output from buildCommitment)
 ```
 
 In Remix:
-- Account → **Player 1**
+- Account -> **Player 1**
 - Find `commitBoard()` function
 - Paste `P1_COMMITMENT` into `_commitment` field
 - Click **transact**
 
 ---
 
-### STEP 7 — Player 2 Commits Their Board
+### STEP 7 - Player 2 Commits Their Board
 
 Player 2 uses different bombs and a different salt.
 
@@ -267,49 +266,49 @@ P2_COMMITMENT = 0x...
 ```
 
 In Remix:
-- Account → **Player 2**
+- Account -> **Player 2**
 - Find `commitBoard()`
 - Paste `P2_COMMITMENT`
 - Click **transact**
-- Phase is now **Play (2)** ✅
+- Phase is now **Play (2)** 
 
 ---
 
-### STEP 8 — Gameplay (repeat until someone loses)
+### STEP 8 - Gameplay (repeat until someone loses)
 
 Player 1 guesses first. Players alternate after each response.
 
 **Guesser's turn:**
-- Account → switch to the **current player**
+- Account -> switch to the **current player**
 - Find `guess()` function
 - Type a cell number (0-8)
 - Click **transact**
 
 **Responder's turn:**
-- Account → switch to the **other player**
+- Account -> switch to the **other player**
 - Find `respond()` function:
 ```
 cell   : (the cell that was just guessed)
 isBomb : true if it is one of your bombs, false if not
 ```
 - Click **transact**
-- If bomb found → `BombFound` event shows count
+- If bomb found -> `BombFound` event shows count
 
 Repeat - switching turns each round - until one player has
 `bombsFound == 3`.
 
-Console → `GameOver` event ✅
-Phase is now **Reveal (3)** ✅
+Console -> `GameOver` event 
+Phase is now **Reveal (3)** 
 
 ---
 
-### STEP 9 — Reveal Phase (both players)
+### STEP 9 - Reveal Phase (both players)
 
 Both players must reveal their actual bomb positions and salt.
 The contract verifies honesty and pays out the winner.
 
 **Player 1 reveals:**
-- Account → **Player 1**
+- Account -> **Player 1**
 - Find `revealBoard()` function:
 ```
 bomb0 : 0 
@@ -318,10 +317,10 @@ bomb2 : 8
 salt  : 0x8f3a...  
 ```
 - Click **transact**
-- Console → `BoardVerified (player1, true)` ✅
+- Console -> `BoardVerified (player1, true)` 
 
 **Player 2 reveals:**
-- Account → **Player 2**
+- Account -> **Player 2**
 - Find `revealBoard()`:
 ```
 bomb0 : 2          (your actual bombs from Step 8)
@@ -330,9 +329,9 @@ bomb2 : 7
 salt  : 0x1a2b...  (your salt from Step 8)
 ```
 - Click **transact**
-- Console → `BoardVerified (player2, true)` ✅
-- Console → `Payout (winner, 2000000000000000000)` ✅
-- Phase is now **Done (4)** ✅
+- Console -> `BoardVerified (player2, true)` 
+- Console -> `Payout (winner, 2000000000000000000)` 
+- Phase is now **Done (4)** 
 - Winner receives **2 ETH**
 
 ---
@@ -347,7 +346,7 @@ salt  : 0x1a2b...  (your salt from Step 8)
 
 ---
 
-## Quick Reference — All Functions
+## Quick Reference - All Functions
 
 | Function | Who calls it | Phase |
 |---|---|---|
